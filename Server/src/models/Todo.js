@@ -7,7 +7,7 @@ const todoSchema = new mongoose.Schema({
         ref: "User",
         required: true,
     },
-    stateus: {
+    status: {
         type: Boolean,
         default: false, // todo states like completed or not compeleted
     },
