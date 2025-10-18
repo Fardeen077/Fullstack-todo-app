@@ -34,7 +34,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     const user = await User.create({
         username: username.toLowerCase(),
-        email:email.toLowerCase(),
+        email: email.toLowerCase(),
         password,
     });
 
@@ -43,8 +43,25 @@ const registerUser = asyncHandler(async (req, res) => {
     if (!createdUser) {
         throw new ApiError(500, "Error creating user !!!");
     }
-    return res.status(201).json(new ApiResponse(201, "User created", {user: createdUser, ...tokens}));
+    return res.status(201).json(new ApiResponse(201, "User created", { user: createdUser, ...tokens }));
 });
+
+const loginUser = asyncHandler(async (req, res) => {
+    const { email, password, username } = req.body;
+    if (!email || !username) {
+        throw new ApiError(400, "Email and Password are required");
+    };
+    const user = await User.findOne({ $or: [{ email }, { password }] });
+    if(!user) {
+        throw new ApiError(404, "User is not found");
+    };
+    const isPasswordVali = await User.ispasswordCorrect(password)
+    if(!isPasswordVali) {
+        throw new ApiError(400, "Invalid password");
+    };
+    
+})
+
 export {
     generateAccessTokenAndRefreshToken,
     registerUser,
