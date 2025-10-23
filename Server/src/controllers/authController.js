@@ -48,21 +48,55 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password, username } = req.body;
-    if (!email || !username) {
-        throw new ApiError(400, "Email and Password are required");
+    if (!email && !username) {
+        throw new ApiError(400, "Email and Username are required");
     };
-    const user = await User.findOne({ $or: [{ email }, { password }] });
-    if(!user) {
+    const user = await User.findOne({ $or: [{ email }, { username }] });
+    if (!user) {
         throw new ApiError(404, "User is not found");
     };
-    const isPasswordVali = await User.ispasswordCorrect(password)
-    if(!isPasswordVali) {
+    const isPasswordVali = await user.isPasswordCorrect(password)
+    if (!isPasswordVali) {
         throw new ApiError(400, "Invalid password");
     };
-    
-})
+    const { accessToken, refreshToken } = await generateAccessTokenAndRefreshToken(user._id);
+
+    const options = {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict"
+    }
+    return res.status(200)
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", refreshToken, options)
+        .json(new ApiResponse(200, {
+            user: await User.findById(user._id).select("-password -refreshToken"),
+            accessToken,
+            refreshToken
+        }, "User logged successfully"));
+});
+
+const logoutUser = asyncHandler(async (req, res) => {
+    // clear cookies
+    await User.findByIdAndUpdate(req.user._id, {
+        $unset: { refreshToken: 1 },
+    });
+    const options = {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict"
+    }
+    return res.status(200)
+        .clearCookie("accessToken", options)
+        .clearCookie("refreshToken", options)
+        .json(new ApiResponse(200, {}, "User logged out successfully"))
+});
+
+
 
 export {
     generateAccessTokenAndRefreshToken,
     registerUser,
+    loginUser,
+    logoutUser,
 };
