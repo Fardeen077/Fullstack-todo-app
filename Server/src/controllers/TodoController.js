@@ -10,7 +10,7 @@ const createTodo = async (req, res, next) => {
         if (!title) {
             throw new ApiError(400, "Title is required");
         }
-        const newTodo = await Todo.create({ title });
+        const newTodo = await Todo.create({ title ,userId: req.user._id});
 
         const response = new ApiResponse(201, newTodo, "Todo Add is successfully");
         return res.status(response.statusCode).json(response);
