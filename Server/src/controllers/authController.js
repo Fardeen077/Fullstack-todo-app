@@ -1,5 +1,5 @@
-import { ApiError } from "../utils/ApiError";
-import { User } from "../models/User";
+import { ApiError } from "../utils/ApiError.js";
+import { User } from "../models/User.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { asyncHandler } from "../utils/asyncHandler.js"
@@ -8,6 +8,8 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 const generateAccessTokenAndRefreshToken = async (userId) => {
     try {
         const user = await User.findById(userId);
+        if (!user) throw new ApiError(404, "User not found");
+
         const accessToken = user.generateAccessToken();
         const refreshToken = user.generateRefreshToken();
 
@@ -36,6 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
         username: username.toLowerCase(),
         email: email.toLowerCase(),
         password,
+        avatar: "https://example.com/default-avatar.png", // default image
     });
 
     const tokens = await generateAccessTokenAndRefreshToken(user._id);
