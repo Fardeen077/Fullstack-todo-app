@@ -1,15 +1,22 @@
-import { useState } from 'react'
+// App.jsx
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div className='text-blue-500'>
-        FULL STACK WEB APPLICATION {count}
-      </div>
-    </>
-  )
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;
