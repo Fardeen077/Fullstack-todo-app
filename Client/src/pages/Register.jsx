@@ -18,7 +18,7 @@ function Register() {
   const handleRegisterUser = async () => {
     try {
       setLoading(true);
-      setError(null)
+      setError(null);
       // console.log(formData);
       const data = await register(formData);
       console.log("User registered:", data);
