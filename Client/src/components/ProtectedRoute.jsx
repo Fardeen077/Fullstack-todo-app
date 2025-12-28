@@ -1,9 +1,12 @@
-import React from 'react'
+import useAuthStore from "../store/useAuthStore";
+import { Navigate } from "react-router-dom";
 
-function ProtectedRoute() {
-  return (
-    <div>ProtectedRoute</div>
-  )
+function ProtectedRoute({ children }) {
+  const isAuth = useAuthStore((state) => state.isAuth);
+
+  // if user are note login set Naviagte into login page 
+  if (!isAuth) return <Navigate to="/login" replace />
+  return children;
 }
 
-export default ProtectedRoute
+export default ProtectedRoute;

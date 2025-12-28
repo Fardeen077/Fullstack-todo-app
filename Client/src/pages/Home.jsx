@@ -1,8 +1,12 @@
-import React from 'react'
+import TodoForm from "../components/TodoForm"
+import TodoList from "../components/TodoList"
 
 function Home() {
   return (
-    <div>Home</div>
+    <div>
+      <TodoForm/>
+      <TodoList/>
+    </div>
   )
 }
 

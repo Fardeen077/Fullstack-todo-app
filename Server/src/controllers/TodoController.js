@@ -21,7 +21,7 @@ const createTodo = async (req, res, next) => {
 
 // All TODO
 
-const getTodo = async (req, res, next) => {
+const getTodo = async (res, next) => {
     try {
         const todos = await Todo.find();
         const response = new ApiResponse(201, todos, "Todos fetched successfully");

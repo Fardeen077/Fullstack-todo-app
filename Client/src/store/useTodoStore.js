@@ -12,7 +12,7 @@ const useTodoStore = create((set) => ({
     isLoading: false,
 
     addTodo: async (todoData) => {
-        set({ isLoading: true })
+        set({ isLoading: true });
         try {
             const response = await createTodo(todoData);
             set((state) => ({
