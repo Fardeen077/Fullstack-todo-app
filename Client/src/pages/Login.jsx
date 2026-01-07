@@ -1,11 +1,10 @@
 import { useState } from "react"
-import { login } from "../api/authApi";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import useAuthStore from "../store/useAuthStore";
 
 function Login() {
 
-    const [formData, setformData] = useState({
+  const [formData, setformData] = useState({
     email: "",
     password: "",
   });
@@ -13,7 +12,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   // const [loginUser, setLoginUser] = useState(null);
-  const { login } = useAuth();
+  const { login } = useAuthStore();
   const navigate = useNavigate();
 
   const handleLoginUser = async () => {

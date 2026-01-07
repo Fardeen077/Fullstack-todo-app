@@ -9,12 +9,12 @@ import {
 
 const router = Router();
 
-router.route("/")
-    .get(verifyJWT, getTodo)
-    .post(verifyJWT, createTodo)
+router.route("/todo")
+    .get(getTodo)
+    .post(createTodo)
 
-router.route("/:id")
-    .put(verifyJWT, updateTodo)    // Update todo
-    .delete(verifyJWT, deleteTodo); // Delete todo
+router.route("/todo/:id")
+    .put(updateTodo)    // Update todo
+    .delete(deleteTodo); // Delete todo
 
 export default router

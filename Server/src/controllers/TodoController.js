@@ -74,7 +74,7 @@ const updateTodo = async (req, res, next) => {
 }
 export {
     createTodo,
-    getTodo,
-    deleteTodo,
     updateTodo,
+    getTodo,
+    deleteTodo
 }

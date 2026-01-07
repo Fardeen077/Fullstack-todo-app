@@ -3,19 +3,25 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import { AuthProvider } from "./context/AuthContext";
+import useTodoStore from "./store/useTodoStore";
+import { useEffect } from "react";
 
 function App() {
+  const { fetchTodos, todos, isLoading } = useTodoStore();
+
+  useEffect(() => {
+    fetchTodos();
+  }, [fetchTodos]);
+
+  if (isLoading) return <p>Loading...</p>;
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </Router>
   );
 }
 

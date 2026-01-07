@@ -1,7 +1,6 @@
 import { useState } from "react"
-import { register } from "../api/authApi";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import useAuthStore from "../store/useAuthStore"
 
 function Register() {
   const [formData, setformData] = useState({
@@ -12,7 +11,7 @@ function Register() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const {login} = useAuth();
+  const {login, register} = useAuthStore();
   const navigate = useNavigate();
 
   const handleRegisterUser = async () => {
