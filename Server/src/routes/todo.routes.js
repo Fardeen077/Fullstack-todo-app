@@ -10,11 +10,11 @@ import {
 const router = Router();
 
 router.route("/todo")
-    .get(getTodo)
-    .post(createTodo)
+    .get(verifyJWT,getTodo)
+    .post(verifyJWT,createTodo)
 
 router.route("/todo/:id")
-    .put(updateTodo)    // Update todo
-    .delete(deleteTodo); // Delete todo
+    .put(verifyJWT, updateTodo)    // Update todo
+    .delete(verifyJWT, deleteTodo); // Delete todo
 
 export default router

@@ -10,7 +10,7 @@ const createTodo = async (req, res, next) => {
         if (!title) {
             throw new ApiError(400, "Title is required");
         }
-        const newTodo = await Todo.create({ title ,userId: req.user._id});
+        const newTodo = await Todo.create({ title, userId: req.user._id });
 
         const response = new ApiResponse(201, newTodo, "Todo Add is successfully");
         return res.status(response.statusCode).json(response);
@@ -21,13 +21,14 @@ const createTodo = async (req, res, next) => {
 
 // All TODO
 
-const getTodo = async (res, next) => {
+const getTodo = async (req, res) => {
     try {
         const todos = await Todo.find();
+        // return res.status(200).json(new ApiResponse(200, todos, "All todo"))
         const response = new ApiResponse(201, todos, "Todos fetched successfully");
         return res.status(response.statusCode).json(response)
     } catch (error) {
-        next(error)
+        return res.status(error.statusCode || 500).json(new ApiResponse(500, null, error.message || "faild to fetched all todos"))
     }
 };
 

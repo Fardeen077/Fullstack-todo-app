@@ -1,10 +1,10 @@
-import authRouter from "./auth.routes.js";
-import todoRouter from "./todo.routes.js";
+import todoRouter from "../routes/todo.routes.js"
+import authRouter from "../routes/auth.routes.js"
 import { Router } from "express";
 
 const router = Router();
 
 router.use("/", authRouter);
-router.use("/todo", todoRouter)
+router.use("/", todoRouter)
 
 export default router;

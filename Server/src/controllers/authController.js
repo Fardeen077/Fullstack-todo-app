@@ -1,7 +1,5 @@
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/User.js";
-import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 
@@ -66,8 +64,8 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const options = {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict"
+        secure: false,
+        sameSite: "lax"
     }
     return res.status(200)
         .cookie("accessToken", accessToken, options)
@@ -86,8 +84,8 @@ const logoutUser = asyncHandler(async (req, res) => {
     });
     const options = {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict"
+        secure: false,
+        sameSite: "lax"
     }
     return res.status(200)
         .clearCookie("accessToken", options)

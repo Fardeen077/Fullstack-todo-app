@@ -12,17 +12,16 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   // const [loginUser, setLoginUser] = useState(null);
-  const { login } = useAuthStore();
+  const { login , isAuth} = useAuthStore();
   const navigate = useNavigate();
 
-  const handleLoginUser = async () => {
+  const handleLoginUser = async (e) => {
+    e.preventDefault();
     try {
       setLoading(true);
       setError(null)
-      // console.log(formData);
-      const data = await login(formData);
-      console.log("User registered:", data);
-      login(data.user, data.token);
+      console.log(formData);
+      await login(formData);
       navigate("/")
     } catch (error) {
       setError(error.message || "something went wrong");
@@ -32,14 +31,14 @@ function Login() {
   }
   return (
     <div className="flex bg-black w-80 items-center justify-center mt-10 rounded-2xl mx-auto">
-      <div className="flex flex-col gap-6 p-6 w-full">
+      <form onSubmit={handleLoginUser} className="flex flex-col gap-6 p-6 w-full">
         <input
           type="email"
           name="email"
           value={formData.email}
           placeholder="Email"
           onChange={(e) =>
-            setformData({ ...formData, [e.target.name]: e.target.value })
+            setformData({ ...formData, email: e.target.value })
           }
           className="bg-gray-200 p-2 rounded"
         />
@@ -50,21 +49,25 @@ function Login() {
           value={formData.password}
           placeholder="Password"
           onChange={(e) =>
-            setformData({ ...formData, [e.target.name]: e.target.value })
+            setformData({ ...formData, password: e.target.value })
           }
           className="bg-gray-200 p-2 rounded"
         />
 
-        <button
-          onClick={handleLoginUser}
-          disabled={loading}
-          className="bg-blue-400 text-white font-semibold py-2 rounded mb-4"
-        >
-          {loading ? "Login user..." : "Submit"}
+        <button type="submit" disabled={isAuth}
+          className="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 disabled:bg-blue-400 text-white p-2 px-10 rounded transition-colors mx-auto mt-4">
+          {isAuth ? (
+            <>
+              <loading className="h-5 w-5 animate-spin" />
+              Login Account...
+            </>
+          ) : (
+            "Login"
+          )}
         </button>
 
         {error && <p className="text-red-400">{error}</p>}
-      </div>
+      </form>
     </div>
   );
 }

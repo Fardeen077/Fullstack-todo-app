@@ -1,9 +1,9 @@
 import { create } from "zustand"
 import toast from "react-hot-toast"
 import {
-    logout,
-    register,
-    login
+    logoutApi,
+    registerApi,
+    loginApi
 } from "../api/authApi";
 
 const useAuthStore = create((set) => ({
@@ -14,29 +14,35 @@ const useAuthStore = create((set) => ({
     register: async (userData) => {
         set({ isLoading: true });
         try {
-            const response = await register(userData);
-            set({ authUser: response.data, isAuth: true });
+            const response = await registerApi(userData);
+            // response is the ApiResponse object from server; response.data contains { user, accessToken, refreshToken }
+            set({ authUser: response.data.user, isAuth: true, isLoading: false });
             toast.success("Account Created");
+            return response.data;
         } catch (error) {
-            toast.error(error.message?.data?.message || "Register faild");
+            toast.error(error?.response?.data?.message || error.message || "Register failed");
             set({ isLoading: false })
+            throw error;
         }
     },
 
     login: async (userData) => {
         set({ isLoading: true });
         try {
-            const response = await login(userData);
-            set({ authUser: response.user.data, isAuth: true });
+            const response = await loginApi(userData);
+            set({ authUser: response.data.user, isAuth: true, isLoading: false });
             toast.success("User login");
+            return response.data;
         } catch (error) {
-            toast.error(error?.message?.data?.message || "Login faild");
+            toast.error(error?.response?.data?.message || error?.message || "Login failed");
+            set({ isLoading: false });
+            throw error;
         }
     },
 
     logout: async () => {
         try {
-            await logout();
+            await logoutApi();
             set({ authUser: null, isAuth: false });
             toast.success("User Logout")
         } catch (error) {
