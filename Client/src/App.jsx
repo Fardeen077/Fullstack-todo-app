@@ -1,27 +1,47 @@
-// App.jsx
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Navigate } from 'react-router-dom'
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import useTodoStore from "./store/useTodoStore";
+import ProtectedRoute from "./components/ProtectedRoute"
+import PublicRoute from "./components/PublicRoute"
+import useAuthStore from "./store/useAuthStore";
 import { useEffect } from "react";
 
 function App() {
-  const { fetchTodos, todos, isLoading } = useTodoStore();
-
+  const { getUser, isLoading } = useAuthStore();
   useEffect(() => {
-    fetchTodos();
-  }, [fetchTodos]);
-
-  if (isLoading) return <p>Loading...</p>;
+    getUser();
+  }, [getUser]);
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 z-50 bg-white/80 flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-600 rounded-full animate-spin" />
+      </div>
+    );
+  }
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        {/*  default router */}
+        <Route path="/" element={<ProtectedRoute>
+          <Home />
+        </ProtectedRoute>
+        } />
+
+        <Route path="/login" element={<PublicRoute>
+          <Login />
+        </PublicRoute>
+        } />
+
+        <Route path="/register" element={<PublicRoute>
+          <Register />
+        </PublicRoute>
+        } />
+
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 

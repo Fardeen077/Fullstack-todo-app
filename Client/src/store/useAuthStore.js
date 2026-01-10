@@ -3,13 +3,14 @@ import toast from "react-hot-toast"
 import {
     logoutApi,
     registerApi,
-    loginApi
+    loginApi,
+    fetchedUser
 } from "../api/authApi";
 
 const useAuthStore = create((set) => ({
     authUser: null,
     isLoading: false,
-    isAuth: false,
+    isAuth: true,
 
     register: async (userData) => {
         set({ isLoading: true });
@@ -42,12 +43,26 @@ const useAuthStore = create((set) => ({
 
     logout: async () => {
         try {
-            await logoutApi();
+            const response = await logoutApi();
             set({ authUser: null, isAuth: false });
             toast.success("User Logout")
+            return response;
         } catch (error) {
-            toast.error(error.message?.data?.message || "Logout falid");
+            toast.error(error.response?.data?.message || "Logout falid");
         }
     },
+
+    getUser: async () => {
+        set({ isLoading: true });
+        try {
+           const response = await fetchedUser();
+            set({ authUser: response, isAuth: true, isLoading: false });
+            toast.success("come user data");
+            return response
+        } catch (error) {
+            set({ isLoading: false, isAuth: false, authUser: null })
+            toast.error(error.response?.data?.message || "mmm somethink wrong with you")
+        }
+    }
 }));
 export default useAuthStore;

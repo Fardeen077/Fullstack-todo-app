@@ -23,7 +23,7 @@ const createTodo = async (req, res, next) => {
 
 const getTodo = async (req, res) => {
     try {
-        const todos = await Todo.find();
+        const todos = await Todo.find({ userId: req.user._id });
         // return res.status(200).json(new ApiResponse(200, todos, "All todo"))
         const response = new ApiResponse(201, todos, "Todos fetched successfully");
         return res.status(response.statusCode).json(response)

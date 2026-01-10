@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { useNavigate , Link} from "react-router-dom";
 import useAuthStore from "../store/useAuthStore";
 
 function Login() {
@@ -11,7 +11,6 @@ function Login() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  // const [loginUser, setLoginUser] = useState(null);
   const { login , isAuth} = useAuthStore();
   const navigate = useNavigate();
 
@@ -66,7 +65,17 @@ function Login() {
           )}
         </button>
 
-        {error && <p className="text-red-400">{error}</p>}
+        {error && <p className="text-red-400">
+          {error}</p>}
+          <p className="text-sm text-center text-gray-600 mt-4">
+          you don't have account?{" "}
+          <Link
+            to="/register"
+            className="text-blue-600 hover:text-blue-700 font-medium"
+          >
+            Register
+          </Link>
+        </p>
       </form>
     </div>
   );
