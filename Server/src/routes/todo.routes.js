@@ -15,8 +15,8 @@ router.route("/todo")
     .post(verifyJWT, createTodo)
 
 router.route("/todo/:id")
-    .patch(verifyJWT, updateTodoStatus)
     .put(verifyJWT, updateTodo)    // Update todo
+    .patch(verifyJWT, updateTodoStatus) // update todo stateus
     .delete(verifyJWT, deleteTodo); // Delete todo
 
 export default router

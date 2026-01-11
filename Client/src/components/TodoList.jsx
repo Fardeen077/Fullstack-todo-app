@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import useTodoStore from '../store/useTodoStore';
-import toast from 'react-hot-toast';
 import { MdDelete } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 
 function TodoList() {
-  const { todos, deleteTodo, updateTodo, isLoading } = useTodoStore();
+  const { todos, deleteTodo, updateTodo, isLoading, updateStatus } = useTodoStore();
 
   const [editTodoId, setEditTodoId] = useState(null);
   const [editTitle, setEditTitle] = useState("");
@@ -32,9 +31,17 @@ function TodoList() {
       setEditTodoId(null);
       setEditTitle("");
     } catch (error) {
-      error("Todo not updated");
+      error("Todo not updated", error);
     }
   };
+
+  const handleTodoStateus = async (id) => {
+    try {
+      await updateStatus(id)
+    } catch (error) {
+      error("Todo status not updated", error);
+    }
+  }
 
   if (isLoading) return <p>Loading...</p>;
   if (todos.length === 0) return <p className='flex justify-center p-10'>No todos found</p>;
@@ -59,7 +66,9 @@ function TodoList() {
               ) : (
                 <span className="flex-1 break-words whitespace-pre-wrap">
                   {todo.title}
-                  <p>Status: {todo.status ? "Completed" : "Pending"}</p>
+                  <p 
+                  className='cursor-pointer'
+                  onClick={() => handleTodoStateus(todo._id)}>{todo.status ? "Completed" : "Pending"}</p>
                 </span>
               )}
 

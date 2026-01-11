@@ -4,7 +4,8 @@ import {
     allTodosApi,
     createTodoApi,
     deleteTodoApi,
-    updateTodoApi
+    updateTodoApi,
+    updateStatusApi
 } from "../api/todoApi"
 
 const useTodoStore = create((set) => ({
@@ -64,7 +65,21 @@ const useTodoStore = create((set) => ({
             set({ isLoading: false });
             toast.error("intrnal server error");
         }
-    }
+    },
+
+    updateStatus: async (id) => {
+        set({ isLoading: true });
+        try {
+            const response = await updateStatusApi(id);
+            set((state) => ({
+                todos: state.todos.map((item) => (item._id === id ? response.data : item))
+            }));
+            set({ isLoading: false });
+        } catch (error) {
+            set({ isLoading: false });
+            throw new Error("update stateus error", error);
+        }
+    },
 }));
 
 export default useTodoStore;

@@ -19,3 +19,8 @@ export const updateTodoApi = async (id, updatedTodo) => {
     const response = await axiosInstance.put(`/todo/${id}`, updatedTodo);
     return response.data;
 };
+
+export const updateStatusApi = async (id)=> {
+    const response = await axiosInstance.patch(`/todo/${id}`);
+    return response.data
+}

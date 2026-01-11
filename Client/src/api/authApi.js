@@ -20,3 +20,4 @@ export const fetchedUser = async()=> {
     return response.data;
 }
 
+
