@@ -33,7 +33,7 @@ const useTodoStore = create((set) => ({
                 todos: state.todos.filter((item) => item._id !== id)
             }));
             set({ isLoading: false });
-            toast.success("todo delete");
+            toast.success("Todo delect successfully");
         } catch (error) {
             set({ isLoading: false });
             toast.error("failed delete todo")
@@ -48,7 +48,7 @@ const useTodoStore = create((set) => ({
                 todos: state.todos.map((item) => (item._id === id ? response.data : item))
             }));
             set({ isLoading: false });
-            toast.success("update todo");
+            toast.success("Todo updated successfully");
         } catch (error) {
             set({ isLoading: false });
             toast.error("failed update todo")

@@ -18,7 +18,7 @@ const useAuthStore = create((set) => ({
             const response = await registerApi(userData);
             // response is the ApiResponse object from server; response.data contains { user, accessToken, refreshToken }
             set({ authUser: response.data.user, isAuth: true, isLoading: false });
-            toast.success("Account Created");
+            toast.success("Account created successfully");
             return response.data;
         } catch (error) {
             toast.error(error?.response?.data?.message || error.message || "Register failed");
@@ -32,7 +32,7 @@ const useAuthStore = create((set) => ({
         try {
             const response = await loginApi(userData);
             set({ authUser: response.data.user, isAuth: true, isLoading: false });
-            toast.success("User login");
+            toast.success("User login successfully");
             return response.data;
         } catch (error) {
             toast.error(error?.response?.data?.message || error?.message || "Login failed");
@@ -45,7 +45,7 @@ const useAuthStore = create((set) => ({
         try {
             const response = await logoutApi();
             set({ authUser: null, isAuth: false });
-            toast.success("User Logout")
+            toast.success("User logout successfully")
             return response;
         } catch (error) {
             toast.error(error.response?.data?.message || "Logout falid");
@@ -57,7 +57,6 @@ const useAuthStore = create((set) => ({
         try {
            const response = await fetchedUser();
             set({ authUser: response, isAuth: true, isLoading: false });
-            toast.success("come user data");
             return response
         } catch (error) {
             set({ isLoading: false, isAuth: false, authUser: null })

@@ -13,9 +13,8 @@ function TodoList() {
   const handleDelTodo = async (id) => {
     try {
       await deleteTodo(id);
-      toast.success("Todo deleted successfully");
     } catch (error) {
-      toast.error("Todo not deleted");
+      error("todo not delect", error)
     }
   };
 
@@ -29,12 +28,11 @@ function TodoList() {
   const handleSave = async (id) => {
     try {
       await updateTodo(id, { title: editTitle });
-      toast.success("Todo updated successfully");
 
       setEditTodoId(null);
       setEditTitle("");
     } catch (error) {
-      toast.error("Todo not updated");
+      error("Todo not updated");
     }
   };
 
@@ -61,6 +59,7 @@ function TodoList() {
               ) : (
                 <span className="flex-1 break-words whitespace-pre-wrap">
                   {todo.title}
+                  <p>Status: {todo.status ? "Completed" : "Pending"}</p>
                 </span>
               )}
 

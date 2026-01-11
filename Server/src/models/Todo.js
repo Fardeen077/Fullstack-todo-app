@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-// import { User } from "./User";
 
 const todoSchema = new mongoose.Schema({
     userId: {
@@ -9,7 +8,7 @@ const todoSchema = new mongoose.Schema({
     },
     status: {
         type: Boolean,
-        default: false, // todo states like completed or not compeleted
+        default: false,
     },
     title: {
         type: String,

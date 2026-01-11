@@ -5,15 +5,17 @@ import {
     getTodo,
     deleteTodo,
     updateTodo,
+    updateTodoStatus
 } from "../controllers/TodoController.js"
 
 const router = Router();
 
 router.route("/todo")
-    .get(verifyJWT,getTodo)
-    .post(verifyJWT,createTodo)
+    .get(verifyJWT, getTodo)
+    .post(verifyJWT, createTodo)
 
 router.route("/todo/:id")
+    .patch(verifyJWT, updateTodoStatus)
     .put(verifyJWT, updateTodo)    // Update todo
     .delete(verifyJWT, deleteTodo); // Delete todo
 
