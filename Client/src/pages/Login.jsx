@@ -1,6 +1,8 @@
 import { useState } from "react"
-import { useNavigate , Link} from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import useAuthStore from "../store/useAuthStore";
+import toast from "react-hot-toast";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 function Login() {
 
@@ -9,27 +11,24 @@ function Login() {
     password: "",
   });
 
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { login , isAuth} = useAuthStore();
+  const { login, isLoading } = useAuthStore();
   const navigate = useNavigate();
 
   const handleLoginUser = async (e) => {
     e.preventDefault();
+    if(isLoading) return
     try {
-      setLoading(true);
       setError(null)
-      console.log(formData);
       await login(formData);
       navigate("/")
+      toast.success("user login successfully");
     } catch (error) {
       setError(error.message || "something went wrong");
-    } finally {
-      setLoading(false)
     }
   }
   return (
-    <div className="flex bg-black w-80 items-center justify-center mt-10 rounded-2xl mx-auto">
+    <div className="flex bg-gray-100 w-80 items-center justify-center mt-40 rounded-2xl mx-auto shadow-2xl">
       <form onSubmit={handleLoginUser} className="flex flex-col gap-6 p-6 w-full">
         <input
           type="email"
@@ -53,11 +52,11 @@ function Login() {
           className="bg-gray-200 p-2 rounded"
         />
 
-        <button type="submit" disabled={isAuth}
-          className="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 disabled:bg-blue-400 text-white p-2 px-10 rounded transition-colors mx-auto mt-4">
-          {isAuth ? (
+        <button type="submit" disabled={isLoading}
+          className="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 disabled:bg-blue-400 text-white p-2 px-10 rounded transition-colors mt-4">
+          {isLoading ? (
             <>
-              <loading className="h-5 w-5 animate-spin" />
+              <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin inline mr-2" />
               Login Account...
             </>
           ) : (
@@ -67,7 +66,7 @@ function Login() {
 
         {error && <p className="text-red-400">
           {error}</p>}
-          <p className="text-sm text-center text-gray-600 mt-4">
+        <p className="text-sm text-center text-gray-600 mt-4">
           you don't have account?{" "}
           <Link
             to="/register"
@@ -80,5 +79,4 @@ function Login() {
     </div>
   );
 }
-
 export default Login

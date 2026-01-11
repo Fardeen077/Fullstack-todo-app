@@ -17,14 +17,20 @@ function TodoForm() {
     }
   }
   return (
-    <div>
-      <form onSubmit={handleTodoForm}>
-        <input type="text" placeholder='Enter your Todo'
+    <div className=''>
+      <form onSubmit={handleTodoForm} className='flex gap-2'>
+        <input type="text"
+        maxLength={200}
+          placeholder='Enter your Todo'
           value={title}
-          onChange={(e) => setTitle(e.target.value)} />
-        <button disabled={isLoading}>
-          {isLoading ? "Adding..." : "Add todo"}
-        </button>
+          onChange={(e) => setTitle(e.target.value)}
+          className="h-10 px-3 text-sm w-full rounded bg-gray-100"
+          />
+        <button
+         disabled={isLoading}
+         className='bg-blue-400 rounded h-11 px-6 hover:bg-blue-500 cursor-pointer'>
+          {isLoading ? "Adding..." : "Add"}
+        </button>   
       </form>
     </div>
   )

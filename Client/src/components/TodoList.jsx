@@ -39,44 +39,65 @@ function TodoList() {
   };
 
   if (isLoading) return <p>Loading...</p>;
-  if (todos.length === 0) return <p>No todos found</p>;
+  if (todos.length === 0) return <p className='flex justify-center p-10'>No todos found</p>;
 
   return (
-    <ul>
-      {todos.map((todo) => (
-        <li key={todo._id}>
-          {editTodoId === todo._id ? (
-            <>
-              <input
-                value={editTitle}
-                onChange={(e) => setEditTitle(e.target.value)}
-                className="border px-2"
-              />
-              <button onClick={() => handleSave(todo._id)}>
-                Save
-              </button>
-            </>
-          ) : (
-            <>
-              <span>{todo.title}</span>
-              <button
-                onClick={() => handleEditClick(todo)}
-                className="p-1 cursor-pointer m-10"
-              >
-                <CiEdit />
-              </button>
-            </>
-          )}
-
-          <button
-            className="p-1 cursor-pointer m-10"
-            onClick={() => handleDelTodo(todo._id)}
+    <div className='w-full gap-5'>
+      <ul className="flex flex-col gap-3">
+        {todos.map((todo) => (
+          <li
+            key={todo._id}
+            className="rounded-lg p-3"
           >
-            <MdDelete />
-          </button>
-        </li>
-      ))}
-    </ul>
+            <div className="flex justify-between items-start gap-3">
+
+              {/* LEFT SIDE */}
+              {editTodoId === todo._id ? (
+                <input
+                  value={editTitle}
+                  onChange={(e) => setEditTitle(e.target.value)}
+                  className="flex-1 border px-2 py-1 rounded"
+                />
+              ) : (
+                <span className="flex-1 break-words whitespace-pre-wrap">
+                  {todo.title}
+                </span>
+              )}
+
+              {/* RIGHT SIDE ACTIONS */}
+              <div className="flex items-center gap-2 shrink-0">
+                {editTodoId === todo._id ? (
+                  <button
+                    onClick={() => handleSave(todo._id)}
+                    className="text-sm px-2 py-1 bg-green-500 text-white rounded"
+                  >
+                    Save
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => handleEditClick(todo)}
+                      className="p-1 cursor-pointer"
+                    >
+                      <CiEdit />
+                    </button>
+
+                    <button
+                      onClick={() => handleDelTodo(todo._id)}
+                      className="p-1 cursor-pointer"
+                    >
+                      <MdDelete />
+                    </button>
+                  </>
+                )}
+              </div>
+
+            </div>
+          </li>
+        ))}
+      </ul>
+
+    </div>
   );
 }
 

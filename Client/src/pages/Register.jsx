@@ -10,15 +10,14 @@ function Register() {
     password: "",
   });
 
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { isAuth, register, login } = useAuthStore();
+  const { isAuth, register, isLoading } = useAuthStore();
   const navigate = useNavigate();
 
   const handleRegisterUser = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
+
       setError(null);
       await register(formData);
       navigate("/")
@@ -29,7 +28,7 @@ function Register() {
     }
   }
   return (
-    <div className="flex bg-black w-80 items-center justify-center mt-10 rounded-2xl mx-auto">
+    <div className="flex bg-gray-100 w-80 items-center justify-center mt-40 rounded-2xl mx-auto shadow-2xl">
       <form onSubmit={handleRegisterUser} className="flex flex-col gap-6 p-6 w-full">
         <input
           type="text"
@@ -64,11 +63,11 @@ function Register() {
           className="bg-gray-200 p-2 rounded"
         />
 
-        <button type="submit" disabled={isAuth}
-          className="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 disabled:bg-blue-400 text-white p-2 px-10 rounded transition-colors mx-auto mt-4">
-          {isAuth ? (
+        <button type="submit" disabled={isLoading}
+          className="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 disabled:bg-blue-400 text-white p-2 px-10 rounded transition-colors">
+          {isLoading ? (
             <>
-              <loading className="h-5 w-5 animate-spin" />
+              <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin inline mr-2" />
               Creating Account...
             </>
           ) : (
