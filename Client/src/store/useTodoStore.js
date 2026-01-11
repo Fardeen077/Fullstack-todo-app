@@ -45,7 +45,7 @@ const useTodoStore = create((set) => ({
         try {
             const response = await updateTodoApi(id, updatedTodo);
             set((state) => ({
-                todos: state.todos.map((item) => (item._id === id ? response : item))
+                todos: state.todos.map((item) => (item._id === id ? response.data : item))
             }));
             set({ isLoading: false });
             toast.success("update todo");
