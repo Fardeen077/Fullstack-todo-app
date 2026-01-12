@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import useTodoStore from '../store/useTodoStore';
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdRadioButtonUnchecked } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
+import { FaRegCheckCircle } from "react-icons/fa";
 
 function TodoList() {
   const { todos, deleteTodo, updateTodo, isLoading, updateStatus } = useTodoStore();
@@ -43,7 +44,6 @@ function TodoList() {
     }
   }
 
-  if (isLoading) return <p>Loading...</p>;
   if (todos.length === 0) return <p className='flex justify-center p-10'>No todos found</p>;
 
   return (
@@ -64,12 +64,15 @@ function TodoList() {
                   className="flex-1 border px-2 py-1 rounded"
                 />
               ) : (
-                <span className="flex-1 break-words whitespace-pre-wrap">
-                  {todo.title}
-                  <p 
-                  className='cursor-pointer'
-                  onClick={() => handleTodoStateus(todo._id)}>{todo.status ? "Completed" : "Pending"}</p>
-                </span>
+                <div className="flex items-center gap-3 break-words whitespace-pre-wrap ">
+                  <p
+                    className='cursor-pointer text-xl flex-shrink-0'
+                    onClick={() => handleTodoStateus(todo._id)}>{todo.status ? <FaRegCheckCircle /> : <MdRadioButtonUnchecked />}</p>
+
+                  <span className={`transition-all duration-200
+                     ${todo.status ? "line-through text-gray-400" : "text-gray-900"}`}>
+                    {todo.title}</span>
+                </div>
               )}
 
               {/* RIGHT SIDE ACTIONS */}
@@ -85,26 +88,24 @@ function TodoList() {
                   <>
                     <button
                       onClick={() => handleEditClick(todo)}
-                      className="p-1 cursor-pointer"
+                      className="p-1 cursor-pointer text-xl"
                     >
                       <CiEdit />
                     </button>
 
                     <button
                       onClick={() => handleDelTodo(todo._id)}
-                      className="p-1 cursor-pointer"
+                      className="p-1 cursor-pointer text-xl"
                     >
                       <MdDelete />
                     </button>
                   </>
                 )}
               </div>
-
             </div>
           </li>
         ))}
       </ul>
-
     </div>
   );
 }

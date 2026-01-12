@@ -11,7 +11,7 @@ function Register() {
   });
 
   const [error, setError] = useState(null);
-  const { isAuth, register, isLoading } = useAuthStore();
+  const {register, isLoading } = useAuthStore();
   const navigate = useNavigate();
 
   const handleRegisterUser = async (e) => {
@@ -23,8 +23,6 @@ function Register() {
       navigate("/")
     } catch (error) {
       setError(error.message || "something went wrong");
-    } finally {
-      setLoading(false)
     }
   }
   return (

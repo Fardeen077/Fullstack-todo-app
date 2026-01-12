@@ -7,6 +7,8 @@ import ProtectedRoute from "./components/ProtectedRoute"
 import PublicRoute from "./components/PublicRoute"
 import useAuthStore from "./store/useAuthStore";
 import { useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Avatar from "./pages/Avatar";
 
 function App() {
   const { getUser, isLoading } = useAuthStore();
@@ -22,12 +24,16 @@ function App() {
   }
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         {/*  default router */}
         <Route path="/" element={<ProtectedRoute>
           <Home />
         </ProtectedRoute>
         } />
+           <Route path="/avatar" element={<ProtectedRoute>
+          <Avatar />
+        </ProtectedRoute> }/>
 
         <Route path="/login" element={<PublicRoute>
           <Login />

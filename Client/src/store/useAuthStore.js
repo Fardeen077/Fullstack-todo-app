@@ -48,19 +48,19 @@ const useAuthStore = create((set) => ({
             toast.success("User logout successfully")
             return response;
         } catch (error) {
-            toast.error(error.response?.data?.message || "Logout falid");
+         error(error.response?.data?.message || "Logout falid");
         }
     },
 
     getUser: async () => {
         set({ isLoading: true });
         try {
-           const response = await fetchedUser();
+            const response = await fetchedUser();
             set({ authUser: response, isAuth: true, isLoading: false });
             return response
         } catch (error) {
             set({ isLoading: false, isAuth: false, authUser: null })
-            toast.error(error.response?.data?.message || "mmm somethink wrong with you")
+            error(error.response?.data?.message || "somethink wrong with you")
         }
     }
 }));

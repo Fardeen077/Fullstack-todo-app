@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom";
 import useAuthStore from "../store/useAuthStore";
-import toast from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 function Login() {
@@ -22,7 +21,6 @@ function Login() {
       setError(null)
       await login(formData);
       navigate("/")
-      toast.success("user login successfully");
     } catch (error) {
       setError(error.message || "something went wrong");
     }

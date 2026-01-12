@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import useTodoStore from "../store/useTodoStore"
-import toast from "react-hot-toast";
+import toast from 'react-hot-toast';
 
 function TodoForm() {
   const { isLoading, addTodo } = useTodoStore();
@@ -9,7 +9,7 @@ function TodoForm() {
   const handleTodoForm = async function (e) {
     e.preventDefault();
     try {
-      if (!title.trim()) return
+      if (!title.trim()) return toast.error("Please Enter Your Todo")
       await addTodo({ title });
       setTitle("");
     } catch (error) {
@@ -17,20 +17,20 @@ function TodoForm() {
     }
   }
   return (
-    <div className=''>
+    <div>
       <form onSubmit={handleTodoForm} className='flex gap-2'>
         <input type="text"
-        maxLength={200}
+          maxLength={200}
           placeholder='Enter your Todo'
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="h-10 px-3 text-sm w-full rounded bg-gray-100"
-          />
+          className="h-10 px-3 text-sm w-full rounded bg-gray-100 focus:outline-none"
+        />
         <button
-         disabled={isLoading}
-         className='bg-blue-400 rounded h-11 px-6 hover:bg-blue-500 cursor-pointer'>
+          disabled={isLoading}
+          className='bg-blue-500 rounded h-11 px-5 hover:bg-blue-600 cursor-pointer'>
           {isLoading ? "Adding..." : "Add"}
-        </button>   
+        </button>
       </form>
     </div>
   )
