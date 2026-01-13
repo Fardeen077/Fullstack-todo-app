@@ -1,13 +1,15 @@
 import { FcTodoList } from "react-icons/fc";
 import { RxAvatar } from "react-icons/rx";
-import { Link, } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import useAuthStore from '../store/useAuthStore';
 
 function Navbar() {
+    const navigate = useNavigate();
     const { logout, isAuth } = useAuthStore();
     const handleLogout = async () => {
         try {
             await logout();
+            navigate("/login", { replace: true });
         } catch (error) {
             console.error("user not logout", error)
         }

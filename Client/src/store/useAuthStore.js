@@ -10,7 +10,7 @@ import {
 const useAuthStore = create((set) => ({
     authUser: null,
     isLoading: false,
-    isAuth: true,
+    isAuth: false,
 
     register: async (userData) => {
         set({ isLoading: true });
@@ -21,14 +21,14 @@ const useAuthStore = create((set) => ({
             toast.success("Account created successfully");
             return response.data;
         } catch (error) {
-            toast.error(error?.response?.data?.message || error.message || "Register failed");
             set({ isLoading: false })
+            toast.error(error?.response?.data?.message || error.message || "Register failed");
             throw error;
         }
     },
 
     login: async (userData) => {
-        set({ isLoading: true });
+        set({ isLoading: true, authUser: null, isAuth: false });
         try {
             const response = await loginApi(userData);
             set({ authUser: response.data.user, isAuth: true, isLoading: false });
@@ -42,13 +42,16 @@ const useAuthStore = create((set) => ({
     },
 
     logout: async () => {
+        set({ isLoading: true, isAuth: false, authUser: null });
         try {
-            const response = await logoutApi();
-            set({ authUser: null, isAuth: false });
-            toast.success("User logout successfully")
-            return response;
+            await logoutApi();
+            toast.success("User logout successfully");
         } catch (error) {
-         error(error.response?.data?.message || "Logout falid");
+            toast.error(error.response?.data?.message || "Logout falid");
+            throw error;
+        } finally {
+            set({ isLoading: false });
+            window.location.replace("/login");
         }
     },
 
@@ -56,12 +59,12 @@ const useAuthStore = create((set) => ({
         set({ isLoading: true });
         try {
             const response = await fetchedUser();
-            set({ authUser: response, isAuth: true, isLoading: false });
-            return response
+            set({ authUser: response.data, isAuth: true, isLoading: false });
+            return response;
         } catch (error) {
-            set({ isLoading: false, isAuth: false, authUser: null })
-            error(error.response?.data?.message || "somethink wrong with you")
+            set({ isLoading: false, isAuth: false, authUser: null });
         }
     }
 }));
+
 export default useAuthStore;
