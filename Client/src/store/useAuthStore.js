@@ -51,7 +51,7 @@ const useAuthStore = create((set) => ({
             throw error;
         } finally {
             set({ isLoading: false });
-            window.location.replace("/login");
+            // window.location.replace("/login");
         }
     },
 

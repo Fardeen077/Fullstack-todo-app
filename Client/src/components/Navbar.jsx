@@ -1,14 +1,17 @@
 import { FcTodoList } from "react-icons/fc";
 import { RxAvatar } from "react-icons/rx";
-import { Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../store/useAuthStore';
+import useTodoStore from "../store/useTodoStore";
 
 function Navbar() {
     const navigate = useNavigate();
     const { logout, isAuth } = useAuthStore();
+    const { resetTodo } = useTodoStore()
     const handleLogout = async () => {
         try {
             await logout();
+            resetTodo();
             navigate("/login", { replace: true });
         } catch (error) {
             console.error("user not logout", error)
@@ -17,7 +20,7 @@ function Navbar() {
     return (
         <>
             {isAuth && (
-                <div className='p-5 flex justify-between'>
+                <div className='p-5 flex justify-between bg-white'>
                     <div className='text-4xl flex cursor-pointer'>
                         <Link to="/">
                             <FcTodoList />

@@ -13,7 +13,7 @@ import Avatar from "./pages/Avatar";
 function App() {
   const { getUser, isLoading } = useAuthStore();
   useEffect(() => {
-   getUser();
+    getUser();
   }, []);
   if (isLoading) {
     return (
@@ -31,9 +31,9 @@ function App() {
           <Home />
         </ProtectedRoute>
         } />
-           <Route path="/avatar" element={<ProtectedRoute>
+        <Route path="/avatar" element={<ProtectedRoute>
           <Avatar />
-        </ProtectedRoute> }/>
+        </ProtectedRoute>} />
 
         <Route path="/login" element={<PublicRoute>
           <Login />

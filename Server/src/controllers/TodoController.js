@@ -18,7 +18,7 @@ const createTodo = asyncHandler(async (req, res,) => {
 
 // All TODO
 const getTodo = asyncHandler(async (req, res) => {
-    const todos = await Todo.find({ userId: req.user._id });
+    const todos = await Todo.find({ userId: req.user._id }).sort({ createdAt: -1 });
 
     const response = new ApiResponse(200, todos, "Todos fetched successfully");
     return res.status(response.statusCode).json(response)

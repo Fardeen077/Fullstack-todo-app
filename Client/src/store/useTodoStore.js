@@ -17,7 +17,7 @@ const useTodoStore = create((set) => ({
         try {
             const response = await createTodoApi(todoData);
             set((state) => ({
-                todos: [response.data, ...state.todos], isLoading: false
+                todos: [response.data, ...state.todos,], isLoading: false
             }));
             toast.success("Todo added successfully");
         } catch (error) {
@@ -80,6 +80,7 @@ const useTodoStore = create((set) => ({
             throw new Error("update stateus error", error);
         }
     },
+    resetTodo: () => set({ todos: [] }),
 }));
 
 export default useTodoStore;
