@@ -5,7 +5,7 @@ function Avatar() {
     const { authUser } = useAuthStore();
 
     return (
-        <div className="min-h-screen bg-gray-100 flex justify-center items-center">
+        <div className="min-h-screen bg-gray-100 flex justify-center p-10">
             <div className="bg-white shadow-2xl w-full max-w-lg h-80 rounded-2xl flex flex-col items-center justify-center gap-4">
                 
                 <RxAvatar className="text-9xl text-gray-400" />

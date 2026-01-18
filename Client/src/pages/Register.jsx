@@ -1,7 +1,6 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom";
 import useAuthStore from "../store/useAuthStore"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 function Register() {
   const [formData, setformData] = useState({
@@ -11,7 +10,7 @@ function Register() {
   });
 
   const [error, setError] = useState(null);
-  const {register, isLoading } = useAuthStore();
+  const { register, isLoading } = useAuthStore();
   const navigate = useNavigate();
 
   const handleRegisterUser = async (e) => {
@@ -20,9 +19,9 @@ function Register() {
 
       setError(null);
       await register(formData);
-      navigate("/")
+      navigate("/");
     } catch (error) {
-      setError(error.message || "something went wrong");
+      setError(error?.response?.data?.message || "Registration failed. Please try again.");
     }
   }
   return (
@@ -62,7 +61,7 @@ function Register() {
         />
 
         <button type="submit" disabled={isLoading}
-          className="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 disabled:bg-blue-400 text-white p-2 px-10 rounded transition-colors">
+          className="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 disabled:bg-blue-400 text-white p-2 px-10 rounded transition-colors cursor-pointer">
           {isLoading ? (
             <>
               <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin inline mr-2" />

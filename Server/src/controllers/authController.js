@@ -39,12 +39,21 @@ const registerUser = asyncHandler(async (req, res) => {
         avatar: "https://example.com/default-avatar.png", // default image
     });
 
-    const tokens = await generateAccessTokenAndRefreshToken(user._id);
+    const { accessToken, refreshToken } = await generateAccessTokenAndRefreshToken(user._id);
     const createdUser = await User.findById(user._id).select("-password -refreshToken");
     if (!createdUser) {
         throw new ApiError(500, "Error creating user !!!");
     }
-    return res.status(201).json(new ApiResponse(201, "User created", { user: createdUser, ...tokens }));
+    const options = {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax"
+    }
+
+    return res.status(201)
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", refreshToken, options)
+        .json(new ApiResponse(201, "User created", { user: createdUser }));
 });
 
 const loginUser = asyncHandler(async (req, res) => {

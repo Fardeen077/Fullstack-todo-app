@@ -9,7 +9,7 @@ import {
 
 const useAuthStore = create((set) => ({
     authUser: null,
-    isLoading: false,
+    isLoading: true,
     isAuth: false,
 
     register: async (userData) => {
@@ -22,7 +22,7 @@ const useAuthStore = create((set) => ({
             return response.data;
         } catch (error) {
             set({ isLoading: false })
-            toast.error(error?.response?.data?.message || error.message || "Register failed");
+            toast.error(error?.response?.data?.message || "Register failed");
             throw error;
         }
     },
@@ -35,7 +35,7 @@ const useAuthStore = create((set) => ({
             toast.success("User login successfully");
             return response.data;
         } catch (error) {
-            toast.error(error?.response?.data?.message || error?.message || "Login failed");
+            toast.error(error?.response?.data?.message || "Login failed");
             set({ isLoading: false });
             throw error;
         }
@@ -51,7 +51,6 @@ const useAuthStore = create((set) => ({
             throw error;
         } finally {
             set({ isLoading: false });
-            // window.location.replace("/login");
         }
     },
 

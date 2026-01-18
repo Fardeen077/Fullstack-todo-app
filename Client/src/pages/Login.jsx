@@ -51,7 +51,7 @@ function Login() {
         />
 
         <button type="submit" disabled={isLoading}
-          className="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 disabled:bg-blue-400 text-white p-2 px-10 rounded transition-colors mt-4">
+          className="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 disabled:bg-blue-400 text-white p-2 px-10 rounded transition-colors mt-4 cursor-pointer">
           {isLoading ? (
             <>
               <AiOutlineLoading3Quarters className="h-5 w-5 animate-spin inline mr-2" />
