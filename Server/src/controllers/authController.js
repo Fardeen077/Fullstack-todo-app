@@ -12,7 +12,7 @@ const generateAccessTokenAndRefreshToken = async (userId) => {
         const refreshToken = user.generateRefreshToken();
 
         user.refreshToken = refreshToken;
-        await user.save({ validateBeforeSave: false });
+        await user.save({ validateBeforeSave: true });
         return { accessToken, refreshToken };
     } catch (error) {
         throw new ApiError(400, "Error generating token")
@@ -46,7 +46,7 @@ const registerUser = asyncHandler(async (req, res) => {
     }
     const options = {
         httpOnly: true,
-        secure: false,
+        secure: true,
         sameSite: "none"
     }
 
@@ -73,7 +73,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const options = {
         httpOnly: true,
-        secure: false,
+        secure: true,
         sameSite: "none"
     }
     return res.status(200)
@@ -93,7 +93,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     });
     const options = {
         httpOnly: true,
-        secure: false,
+        secure: true,
         sameSite: "none"
     }
     return res.status(200)
