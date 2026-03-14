@@ -8,6 +8,8 @@ const app = express();
 app.use(cors({
     origin: process.env.CORE_ORIGIN,
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 app.use(express.json({ limit: "2kb" }));
@@ -16,4 +18,10 @@ app.use(express.urlencoded({ extended: true, limit: "2kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 app.use("/api/v1/user", userRouter);
+
+app.get("/debug-cookie", (req, res) => {
+    console.log(req.cookies);
+    res.json(req.cookies);
+});
+
 export { app };
