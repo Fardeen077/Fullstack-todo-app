@@ -59,7 +59,7 @@ const useAuthStore = create((set) => ({
         try {
             const response = await fetchedUser();
             set({ authUser: response.data, isAuth: true, isLoading: false });
-            return response;
+            return response.data;
         } catch (error) {
             set({ isLoading: false, isAuth: false, authUser: null });
         }

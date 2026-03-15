@@ -48,7 +48,7 @@ const registerUser = asyncHandler(async (req, res) => {
     }
     const options = {
         httpOnly: true,
-        secure: isProduction,
+        secure: true,
         sameSite: isProduction ? "none" : "lax",
         path: "/"
     }
@@ -76,7 +76,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const options = {
         httpOnly: true,
-        secure: isProduction,
+        secure: true,
         sameSite: isProduction ? "none" : "lax",
         path: "/"
     }
@@ -97,7 +97,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     });
     const options = {
         httpOnly: true,
-        secure: isProduction,
+        secure: true,
         sameSite: isProduction ? "none" : "lax",
         path: "/"
     }
