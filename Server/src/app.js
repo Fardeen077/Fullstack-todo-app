@@ -7,7 +7,7 @@ const app = express();
 
 const __dirname = path.resolve();
 app.use(cors({
-    origin:"https://fullstack-todo-app-9.onrender.com",
+    origin:process.env.CORE_ORIGIN,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
