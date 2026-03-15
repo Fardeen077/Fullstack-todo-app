@@ -14,7 +14,7 @@ function App() {
   const { getUser, isLoading } = useAuthStore();
   useEffect(() => {
     getUser();
-  }, []);
+  }, []); 
   if (isLoading) {
     return (
       <div className="fixed inset-0 z-50 bg-white/80 flex items-center justify-center">
